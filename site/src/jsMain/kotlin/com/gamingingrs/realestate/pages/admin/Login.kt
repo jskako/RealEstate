@@ -42,7 +42,7 @@ fun LoginScreen() {
         Column(
             modifier = Modifier
                 .padding(leftRight = 50.px, top = 20.px, bottom = 24.px)
-                .backgroundColor(Theme.LightGray.rgb),
+                .backgroundColor(Theme.DarkGray.rgb),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
