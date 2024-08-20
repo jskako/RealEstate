@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kobweb.application)
+    alias(libs.plugins.serialisation.plugin)
     // alias(libs.plugins.kobwebx.markdown)
 }
 
@@ -36,6 +37,8 @@ kotlin {
         }
         jvmMain.dependencies {
             compileOnly(libs.kobweb.api) // Provided by Kobweb backend at runtime
+            implementation(libs.kmongo.coroutine)
+            implementation(libs.kotlinx.serialization.json)
         }
     }
 }
