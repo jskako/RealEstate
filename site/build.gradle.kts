@@ -13,7 +13,7 @@ version = "1.0-SNAPSHOT"
 kobweb {
     app {
         index {
-            description.set("Powered by Kobweb")
+            description.set("Find your dream home with our comprehensive real estate listings. Explore top properties in Croatia with detailed information and photos.")
         }
     }
 }
