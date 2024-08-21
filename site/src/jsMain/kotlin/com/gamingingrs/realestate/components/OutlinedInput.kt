@@ -8,6 +8,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.height
+import com.varabyte.kobweb.compose.ui.modifiers.id
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.width
@@ -20,11 +21,13 @@ import org.jetbrains.compose.web.dom.Input
 @Composable
 fun <T> OutlinedInput(
     type: InputType<T>,
-    placeholder: String
+    placeholder: String,
+    id: String
 ) {
     Input(
         type = type,
         attrs = LoginInputStyle.toModifier()
+            .id(id)
             .margin(bottom = 12.px)
             .width(350.px)
             .height(54.px)

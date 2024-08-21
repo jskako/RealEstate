@@ -13,3 +13,8 @@ object Res {
         const val LOGIN = "/login.svg"
     }
 }
+
+object Id {
+    const val USERNAME_INPUT = "usernameInput"
+    const val PASSWORD_INPUT = "passwordInput"
+}

@@ -3,6 +3,7 @@ package com.gamingingrs.realestate.api
 import com.gamingingrs.realestate.data.MongoDB
 import com.gamingingrs.realestate.models.User
 import com.gamingingrs.realestate.models.UserWithoutPassword
+import com.gamingingrs.realestate.utils.EndPointConstants.USER_CHECK_ENDPOINT
 import com.varabyte.kobweb.api.Api
 import com.varabyte.kobweb.api.ApiContext
 import com.varabyte.kobweb.api.data.getValue
@@ -12,7 +13,7 @@ import kotlinx.serialization.json.Json
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
-@Api(routeOverride = "usercheck")
+@Api(routeOverride = USER_CHECK_ENDPOINT)
 suspend fun userCheck(context: ApiContext) {
     runCatching {
         val userRequest = context.req.body?.decodeToString()?.let { json ->
