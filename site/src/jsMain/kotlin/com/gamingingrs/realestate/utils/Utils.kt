@@ -2,14 +2,12 @@ package com.gamingingrs.realestate.utils
 
 import kotlinx.coroutines.delay
 
-suspend fun setError(
-    error: String,
+suspend fun setDelay(
     delay: Long = SHORT_DELAY,
-    onError: (String?) -> Unit,
+    onDone: () -> Unit,
 ) {
-    onError(error)
     delay(delay)
-    onError(null)
+    onDone()
 }
 
 const val SHORT_DELAY = 3000L

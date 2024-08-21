@@ -4,17 +4,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-actual class User(
+data class User(
     @SerialName(value = "_id")
-    actual val id: String = "",
-    actual val username: String = "",
-    actual val password: String = ""
+    val id: String = "",
+    val username: String = "",
+    val password: String = ""
 )
 
 @Serializable
-actual class UserWithoutPassword(
+data class UserWithoutPassword(
     @SerialName(value = "_id")
-    actual val id: String = "",
-    actual val username: String = ""
+    val id: String = "",
+    val username: String = ""
 )
 

@@ -1,20 +1,25 @@
 package com.gamingingrs.realestate.utils
 
-object Constants {
-
-    object Fonts {
-        const val FONT_ROBOTO = "Roboto"
-    }
+object Fonts {
+    const val FONT_ROBOTO = "Roboto"
 }
 
-object Res {
-    object Image {
-        const val LOGO = "/logo.svg"
-        const val LOGIN = "/login.svg"
-    }
+object Image {
+    const val LOGO = "/logo.svg"
+    const val LOGIN = "/login.svg"
 }
 
 object Id {
     const val USERNAME_INPUT = "usernameInput"
     const val PASSWORD_INPUT = "passwordInput"
+}
+
+object LocalStorage {
+    const val REMEMBER_KEY = "remember"
+    const val USER_ID_KEY = "userId"
+    const val USERNAME_KEY = "username"
+}
+
+object Routes {
+    const val HOME_ROUTE = "admin/home"
 }

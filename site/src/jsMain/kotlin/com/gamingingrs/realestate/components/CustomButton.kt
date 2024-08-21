@@ -2,9 +2,10 @@ package com.gamingingrs.realestate.components
 
 import androidx.compose.runtime.Composable
 import com.gamingingrs.realestate.models.Theme
-import com.gamingingrs.realestate.utils.Constants.Fonts.FONT_ROBOTO
+import com.gamingingrs.realestate.utils.Fonts.FONT_ROBOTO
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
@@ -18,6 +19,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.outline
+import com.varabyte.kobweb.compose.ui.modifiers.visibility
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.text.SpanText
@@ -28,12 +30,14 @@ import org.jetbrains.compose.web.dom.Button
 @Composable
 fun CustomButton(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    visibility: Visibility = Visibility.Visible
 ) {
     Button(
         attrs = Modifier
             .width(350.px)
             .height(54.px)
+            .visibility(visibility = visibility)
             .backgroundColor(Theme.Primary.rgb)
             .color(Colors.White)
             .borderRadius(r = 4.px)
