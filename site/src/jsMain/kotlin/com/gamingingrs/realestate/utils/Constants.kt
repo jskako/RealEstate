@@ -6,7 +6,7 @@ object Fonts {
 
 object Image {
     const val LOGO = "/logo.svg"
-    const val LOGIN = "/login.svg"
+    const val LOCK = "/lock.svg"
 }
 
 object Id {

@@ -23,6 +23,8 @@ import com.varabyte.kobweb.compose.ui.modifiers.visibility
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.text.SpanText
+import org.jetbrains.compose.web.css.CSSSizeValue
+import org.jetbrains.compose.web.css.CSSUnit
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Button
@@ -31,7 +33,8 @@ import org.jetbrains.compose.web.dom.Button
 fun CustomButton(
     text: String,
     onClick: () -> Unit,
-    visibility: Visibility = Visibility.Visible
+    visibility: Visibility = Visibility.Visible,
+    fontSize: CSSSizeValue<CSSUnit.px> = 18.px
 ) {
     Button(
         attrs = Modifier
@@ -43,7 +46,7 @@ fun CustomButton(
             .borderRadius(r = 4.px)
             .fontFamily(FONT_ROBOTO)
             .fontWeight(FontWeight.Medium)
-            .fontSize(16.px)
+            .fontSize(fontSize)
             .cursor(Cursor.Pointer)
             .onClick {
                 onClick()

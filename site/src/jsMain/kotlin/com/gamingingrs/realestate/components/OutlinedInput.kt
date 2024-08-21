@@ -2,7 +2,7 @@ package com.gamingingrs.realestate.components
 
 import androidx.compose.runtime.Composable
 import com.gamingingrs.realestate.styles.LoginInputStyle
-import com.gamingingrs.realestate.utils.Constants.Fonts.FONT_ROBOTO
+import com.gamingingrs.realestate.utils.Fonts.FONT_ROBOTO
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
