@@ -8,6 +8,7 @@ kotlin-js-store
 *.iml
 /*.ipr
 
+/.idea/misc.xml
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -21,6 +22,7 @@ kotlin-js-store
 /.idea/*.iml
 /.idea/modules
 /.idea/libraries-with-intellij-classes.xml
+.idea
 
 # Gradle ignores
 .gradle

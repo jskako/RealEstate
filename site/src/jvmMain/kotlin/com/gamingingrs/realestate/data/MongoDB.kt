@@ -43,4 +43,4 @@ class MongoDB(val context: InitApiContext) : MongoRepository {
 
 private const val MONGO_MAPPING_SERVICE = "org.litote.mongo.test.mapping.service"
 private const val MONGO_SERIALIZATION =
-    "org.litote.kmongo.serialization.SerializationClassMappingTypeService"
+    "org.litote.kmongo.serialization.SerializationClassMappingTypeService" //org.litote.kmongo.jackson.JacksonClassMappingTypeService
