@@ -11,3 +11,11 @@ data class User(
     val username: String = "",
     val password: String = ""
 )
+
+@Serializable
+data class UserWithoutPassword(
+    @SerialName(value = "_id")
+    val id: String = ObjectIdGenerator.newObjectId<String>().id.toHexString(),
+    val username: String = ""
+)
+
