@@ -156,7 +156,8 @@ fun LoginScreen() {
                 type = InputType.Text,
                 placeholder = "Username",
                 id = USERNAME_INPUT,
-                leadingIconPath = USERNAME_IMG
+                leadingIconPath = USERNAME_IMG,
+                isDisabled = progress == ACTIVE
             )
 
             OutlinedInput(
@@ -169,6 +170,7 @@ fun LoginScreen() {
                 } else {
                     HIDDEN_IMG
                 },
+                isDisabled = progress == ACTIVE,
                 onTrailingIconClicked = {
                     passwordVisible = !passwordVisible
                 }

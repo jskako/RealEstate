@@ -35,6 +35,7 @@ fun <T> OutlinedInput(
     type: InputType<T>,
     placeholder: String,
     id: String,
+    isDisabled: Boolean = false,
     leadingIconPath: String? = null,
     onLeadingIconClicked: (() -> Unit)? = null,
     trailingIconPath: String? = null,
@@ -59,6 +60,7 @@ fun <T> OutlinedInput(
                         }
                     },
                 iconPath = it,
+                isDisabled = isDisabled,
                 onClick = onLeadingIconClicked
             )
         }
@@ -79,6 +81,9 @@ fun <T> OutlinedInput(
                 .fontSize(14.px)
                 .toAttrs {
                     attr(PLACEHOLDER_ATTRIBUTE, value = placeholder)
+                    if (isDisabled) {
+                        attr("disabled", "")
+                    }
                 }
         )
 
@@ -94,6 +99,7 @@ fun <T> OutlinedInput(
                         }
                     },
                 iconPath = it,
+                isDisabled = isDisabled,
                 onClick = onTrailingIconClicked
             )
         }

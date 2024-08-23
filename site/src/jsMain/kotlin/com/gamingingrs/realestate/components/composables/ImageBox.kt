@@ -14,6 +14,7 @@ fun ImageBox(
     modifier: Modifier = Modifier,
     iconPath: String,
     alt: String = "",
+    isDisabled: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
     Box(
@@ -25,7 +26,7 @@ fun ImageBox(
             attrs = Modifier
                 .size(20.px)
                 .let {
-                    if (onClick != null) {
+                    if (onClick != null && !isDisabled) {
                         it.onClick {
                             onClick()
                         }
