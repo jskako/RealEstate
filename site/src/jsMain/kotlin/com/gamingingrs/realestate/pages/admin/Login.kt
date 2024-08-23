@@ -11,15 +11,16 @@ import com.gamingingrs.realestate.components.OutlinedInput
 import com.gamingingrs.realestate.models.Theme
 import com.gamingingrs.realestate.models.User
 import com.gamingingrs.realestate.models.UserWithoutPassword
+import com.gamingingrs.realestate.utils.Fonts.FONT_ROBOTO
 import com.gamingingrs.realestate.utils.Id.PASSWORD_INPUT
 import com.gamingingrs.realestate.utils.Id.USERNAME_INPUT
-import com.gamingingrs.realestate.utils.Image.LOCK
 import com.gamingingrs.realestate.utils.LocalStorage.REMEMBER_KEY
 import com.gamingingrs.realestate.utils.LocalStorage.USERNAME_KEY
 import com.gamingingrs.realestate.utils.LocalStorage.USER_ID_KEY
 import com.gamingingrs.realestate.utils.Routes.HOME_ROUTE
 import com.gamingingrs.realestate.utils.setDelay
 import com.gamingingrs.realestate.utils.userExist
+import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
@@ -27,17 +28,20 @@ import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
 import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
+import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
+import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.textAlign
 import com.varabyte.kobweb.compose.ui.modifiers.width
+import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
-import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.text.SpanText
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
@@ -45,7 +49,10 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.dom.H1
+import org.jetbrains.compose.web.dom.H4
 import org.jetbrains.compose.web.dom.Progress
+import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.set
 
@@ -73,28 +80,42 @@ fun LoginScreen() {
 
     Box(
         modifier = Modifier
-            .backgroundColor(Theme.DarkBlue.rgb)
+            .backgroundColor(Colors.AntiqueWhite)
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+
         Column(
             modifier = Modifier
                 .padding(leftRight = 50.px, top = 20.px, bottom = 24.px)
                 .border(
-                    width = 4.px,
-                    style = LineStyle.Solid,
-                    color = Theme.Primary.rgb
+                    width = 1.px,
+                    style = LineStyle.Dashed,
+                    color = Colors.DimGray
                 ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                modifier = Modifier
-                    .margin(bottom = 20.px)
-                    .width(100.px),
-                src = LOCK,
-                description = "Login Image"
-            )
+
+            H1(
+                attrs = Modifier
+                    .fontFamily(FONT_ROBOTO)
+                    .fontWeight(FontWeight.ExtraBold)
+                    .margin(topBottom = 50.px)
+                    .toAttrs()
+            ) {
+                Text("REAL ESTATE")
+            }
+
+            H4(
+                attrs = Modifier
+                    .fontFamily(FONT_ROBOTO)
+                    .fontWeight(FontWeight.ExtraLight)
+                    .margin(bottom = 40.px)
+                    .toAttrs()
+            ) {
+                Text("YOUR WAY TO NEW HOME")
+            }
 
             OutlinedInput(
                 type = InputType.Text,
@@ -123,7 +144,12 @@ fun LoginScreen() {
 
                         if (username.isNotEmpty() && password.isNotEmpty()) {
                             progress = Progress.ACTIVE
-                            userExist(User(username = username, password = password))?.let { user ->
+                            userExist(
+                                User(
+                                    username = username,
+                                    password = password
+                                )
+                            )?.let { user ->
                                 rememberLoggedIn(remember = true, user = user)
                                 context.router.navigateTo(HOME_ROUTE)
                             } ?: run {

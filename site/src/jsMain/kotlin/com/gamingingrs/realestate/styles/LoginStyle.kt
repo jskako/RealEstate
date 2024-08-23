@@ -1,8 +1,8 @@
 package com.gamingingrs.realestate.styles
 
-import com.gamingingrs.realestate.models.Theme
 import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.silk.style.CssStyle
@@ -14,9 +14,9 @@ import org.jetbrains.compose.web.css.px
 val LoginInputStyle = CssStyle {
     base {
         Modifier.border(
-            width = 4.px,
+            width = 1.px,
             style = LineStyle.Solid,
-            color = Theme.DarkRed.rgb
+            color = Colors.DimGray
         )
             .transition(
                 Transition.of(
@@ -27,9 +27,9 @@ val LoginInputStyle = CssStyle {
     }
     focus {
         Modifier.border(
-            width = 4.px,
+            width = 1.px,
             style = LineStyle.Solid,
-            color = Theme.Primary.rgb
+            color = Colors.DimGray
         )
     }
 }
