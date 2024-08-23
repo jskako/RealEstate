@@ -1,4 +1,4 @@
-package com.gamingingrs.realestate.components
+package com.gamingingrs.realestate.components.composables
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.foundation.layout.Box

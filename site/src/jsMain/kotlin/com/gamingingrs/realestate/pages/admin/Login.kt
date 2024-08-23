@@ -7,8 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.gamingingrs.realestate.components.CustomButton
-import com.gamingingrs.realestate.components.OutlinedInput
+import com.gamingingrs.realestate.components.AnimatedMessage
+import com.gamingingrs.realestate.components.composables.CustomButton
+import com.gamingingrs.realestate.components.composables.OutlinedInput
 import com.gamingingrs.realestate.models.User
 import com.gamingingrs.realestate.models.UserWithoutPassword
 import com.gamingingrs.realestate.models.enums.Progress.ACTIVE
@@ -71,7 +72,7 @@ fun LoginScreen() {
 
     val scope = rememberCoroutineScope()
     val context = rememberPageContext()
-    var message by remember { mutableStateOf("") }
+    val message by remember { mutableStateOf(AnimatedMessage()) }
     var progress by remember { mutableStateOf(NOT_ACTIVE) }
     var passwordVisible by remember { mutableStateOf(false) }
     var borderColor by remember { mutableStateOf<CSSColorValue>(Colors.DimGray) }
@@ -97,13 +98,13 @@ fun LoginScreen() {
     }
 
     fun resetProgress() {
-        message = ""
+        message.reset()
         progress = NOT_ACTIVE
     }
 
     suspend fun setProgressError(error: String) {
         progress = ERROR
-        message = error
+        message.set(error)
         setDelay {
             resetProgress()
         }
@@ -182,7 +183,7 @@ fun LoginScreen() {
 
                             if (username.isNotEmpty() && password.isNotEmpty()) {
                                 progress = ACTIVE
-                                message = "CHECKING USER..."
+                                message.set("CHECKING USER...")
                                 userExist(
                                     User(
                                         username = username,
@@ -214,7 +215,7 @@ fun LoginScreen() {
                             }
                         )
                         .textAlign(TextAlign.Center),
-                    text = message
+                    text = message.message
                 )
             }
         }
