@@ -23,7 +23,7 @@ object LocalStorage {
 }
 
 object Routes {
-    const val HOME_ROUTE = "admin/home"
+    const val HOME_ROUTE = "/admin"
 }
 
 object Delay {

@@ -13,7 +13,7 @@ suspend fun userExist(user: User) = runCatching {
         apiPath = USER_CHECK_ENDPOINT,
         body = Json.encodeToString(user).encodeToByteArray()
     )
-    Json.decodeFromString<UserWithoutPassword>(result.toString())
+    result?.decodeToString()?.let { Json.decodeFromString<UserWithoutPassword>(it) }
 }.onFailure { e ->
     println(e.message)
 }.getOrNull()

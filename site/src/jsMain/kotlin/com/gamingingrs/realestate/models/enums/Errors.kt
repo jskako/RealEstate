@@ -4,12 +4,12 @@ enum class Errors {
 
     INPUT_EMPTY {
         override fun code() = "ERR001"
-        override fun message() = "USER DOESN'T EXIST"
+        override fun message() = "INPUT FIELDS MUST NOT BE EMPTY"
     },
 
     USER_DOESNT_EXIST {
         override fun code() = "ERR002"
-        override fun message() = "INPUT FIELDS MUST NOT BE EMPTY"
+        override fun message() = "USER DOESN'T EXIST"
     };
 
     abstract fun code(): String

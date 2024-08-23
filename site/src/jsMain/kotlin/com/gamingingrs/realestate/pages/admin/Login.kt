@@ -195,6 +195,7 @@ fun LoginScreen() {
                                         password = password
                                     )
                                 )?.let { user ->
+                                    message.set("WELCOME BACK")
                                     rememberLoggedIn(remember = true, user = user)
                                     context.router.navigateTo(HOME_ROUTE)
                                 } ?: run {
@@ -217,6 +218,7 @@ fun LoginScreen() {
                     modifier = Modifier
                         .margin(top = 24.px)
                         .width(350.px)
+                        .fontFamily(FONT_ROBOTO)
                         .color(
                             when (progress) {
                                 ERROR -> Colors.DarkRed
