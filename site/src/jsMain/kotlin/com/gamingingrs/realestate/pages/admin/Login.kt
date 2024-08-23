@@ -1,6 +1,7 @@
 package com.gamingingrs.realestate.pages.admin
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,16 +25,17 @@ import com.gamingingrs.realestate.utils.LocalStorage.REMEMBER_KEY
 import com.gamingingrs.realestate.utils.LocalStorage.USERNAME_KEY
 import com.gamingingrs.realestate.utils.LocalStorage.USER_ID_KEY
 import com.gamingingrs.realestate.utils.Routes.HOME_ROUTE
+import com.gamingingrs.realestate.utils.interpolateColor
 import com.gamingingrs.realestate.utils.setDelay
 import com.gamingingrs.realestate.utils.userExist
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextAlign
-import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
 import com.varabyte.kobweb.compose.ui.modifiers.border
@@ -51,13 +53,14 @@ import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.text.SpanText
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.attributes.InputType
+import org.jetbrains.compose.web.css.CSSColorValue
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.H4
-import org.jetbrains.compose.web.dom.Progress
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.set
@@ -68,18 +71,39 @@ fun LoginScreen() {
 
     val scope = rememberCoroutineScope()
     val context = rememberPageContext()
-    var errorText by remember { mutableStateOf("") }
+    var message by remember { mutableStateOf("") }
     var progress by remember { mutableStateOf(NOT_ACTIVE) }
     var passwordVisible by remember { mutableStateOf(false) }
+    var borderColor by remember { mutableStateOf<CSSColorValue>(Colors.DimGray) }
+
+    LaunchedEffect(progress) {
+        launch {
+
+            val delayTime = ANIMATION_DURATION / ANIMATION_STEPS
+
+            suspend fun animateColor(fromColor: Color, toColor: Color) {
+                for (i in 0..ANIMATION_STEPS) {
+                    val fraction = i / ANIMATION_STEPS.toFloat()
+                    borderColor = interpolateColor(fromColor, toColor, fraction)
+                    delay(delayTime)
+                }
+            }
+
+            while (progress == ACTIVE) {
+                animateColor(Colors.DimGray, Colors.LightGoldenRodYellow)
+                animateColor(Colors.LightGoldenRodYellow, Colors.DimGray)
+            }
+        }
+    }
 
     fun resetProgress() {
-        errorText = ""
+        message = ""
         progress = NOT_ACTIVE
     }
 
     suspend fun setProgressError(error: String) {
         progress = ERROR
-        errorText = error
+        message = error
         setDelay {
             resetProgress()
         }
@@ -98,7 +122,7 @@ fun LoginScreen() {
                 .border(
                     width = 1.px,
                     style = LineStyle.Dashed,
-                    color = Colors.DimGray
+                    color = if (progress == ACTIVE) borderColor else Colors.DimGray
                 ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -146,51 +170,51 @@ fun LoginScreen() {
                 }
             )
 
-            CustomButton(
-                text = "Sign in",
-                visibility = when (progress) {
-                    NOT_ACTIVE, ERROR -> Visibility.Visible
-                    ACTIVE -> Visibility.Hidden
-                },
-                onClick = {
-                    scope.launch {
-                        val username =
-                            (document.getElementById(USERNAME_INPUT) as? HTMLInputElement)?.value.orEmpty()
-                        val password =
-                            (document.getElementById(PASSWORD_INPUT) as? HTMLInputElement)?.value.orEmpty()
+            if (progress != ACTIVE) {
+                CustomButton(
+                    text = "Sign in",
+                    onClick = {
+                        scope.launch {
+                            val username =
+                                (document.getElementById(USERNAME_INPUT) as? HTMLInputElement)?.value.orEmpty()
+                            val password =
+                                (document.getElementById(PASSWORD_INPUT) as? HTMLInputElement)?.value.orEmpty()
 
-                        if (username.isNotEmpty() && password.isNotEmpty()) {
-                            progress = ACTIVE
-                            userExist(
-                                User(
-                                    username = username,
-                                    password = password
-                                )
-                            )?.let { user ->
-                                rememberLoggedIn(remember = true, user = user)
-                                context.router.navigateTo(HOME_ROUTE)
-                            } ?: run {
-                                setProgressError(error = "The user doesn't exist.")
+                            if (username.isNotEmpty() && password.isNotEmpty()) {
+                                progress = ACTIVE
+                                message = "CHECKING USER..."
+                                userExist(
+                                    User(
+                                        username = username,
+                                        password = password
+                                    )
+                                )?.let { user ->
+                                    rememberLoggedIn(remember = true, user = user)
+                                    context.router.navigateTo(HOME_ROUTE)
+                                } ?: run {
+                                    setProgressError(error = "The user doesn't exist.")
+                                }
+                            } else {
+                                setProgressError(error = "Input fields are empty.")
                             }
-                        } else {
-                            setProgressError(error = "Input fields are empty.")
                         }
                     }
-                }
-            )
-
-            if (progress == ACTIVE) {
-                Progress()
+                )
             }
 
-            if (progress == ERROR) {
+            if (progress == ERROR || progress == ACTIVE) {
                 SpanText(
                     modifier = Modifier
                         .margin(top = 24.px)
                         .width(350.px)
-                        .color(Colors.DarkRed)
+                        .color(
+                            when (progress) {
+                                ERROR -> Colors.DarkRed
+                                else -> Colors.Black
+                            }
+                        )
                         .textAlign(TextAlign.Center),
-                    text = errorText
+                    text = message
                 )
             }
         }
@@ -207,3 +231,6 @@ private fun rememberLoggedIn(
         localStorage[USERNAME_KEY] = user.username
     }
 }
+
+private const val ANIMATION_DURATION = 2000L
+private const val ANIMATION_STEPS = 100

@@ -25,3 +25,11 @@ object LocalStorage {
 object Routes {
     const val HOME_ROUTE = "admin/home"
 }
+
+object Delay {
+    const val SHORT = 3000L
+}
+
+object Regex {
+    const val RGB_REGEX = "rgb\\((\\d+), (\\d+), (\\d+)\\)"
+}
