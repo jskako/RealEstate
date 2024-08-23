@@ -1,6 +1,6 @@
 package com.gamingingrs.realestate.components
 
-class AnimatedMessage {
+class Message {
 
     var message: String = ""
         private set

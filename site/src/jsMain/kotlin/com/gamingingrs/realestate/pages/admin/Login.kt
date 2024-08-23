@@ -7,11 +7,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.gamingingrs.realestate.components.AnimatedMessage
+import com.gamingingrs.realestate.components.Message
 import com.gamingingrs.realestate.components.composables.CustomButton
 import com.gamingingrs.realestate.components.composables.OutlinedInput
 import com.gamingingrs.realestate.models.User
 import com.gamingingrs.realestate.models.UserWithoutPassword
+import com.gamingingrs.realestate.models.enums.Errors
 import com.gamingingrs.realestate.models.enums.Progress.ACTIVE
 import com.gamingingrs.realestate.models.enums.Progress.ERROR
 import com.gamingingrs.realestate.models.enums.Progress.NOT_ACTIVE
@@ -72,7 +73,7 @@ fun LoginScreen() {
 
     val scope = rememberCoroutineScope()
     val context = rememberPageContext()
-    val message by remember { mutableStateOf(AnimatedMessage()) }
+    val message by remember { mutableStateOf(Message()) }
     var progress by remember { mutableStateOf(NOT_ACTIVE) }
     var passwordVisible by remember { mutableStateOf(false) }
     var borderColor by remember { mutableStateOf<CSSColorValue>(Colors.DimGray) }
@@ -102,9 +103,11 @@ fun LoginScreen() {
         progress = NOT_ACTIVE
     }
 
-    suspend fun setProgressError(error: String) {
+    suspend fun setProgressError(
+        error: Errors
+    ) {
         progress = ERROR
-        message.set(error)
+        message.set("${error.code()}: ${error.message()}")
         setDelay {
             resetProgress()
         }
@@ -183,7 +186,7 @@ fun LoginScreen() {
 
                             if (username.isNotEmpty() && password.isNotEmpty()) {
                                 progress = ACTIVE
-                                message.set("CHECKING USER...")
+                                message.set("PLEASE HOLD ON WHILE I CHECK IF THE USER IS IN THE SYSTEM")
                                 userExist(
                                     User(
                                         username = username,
@@ -193,10 +196,14 @@ fun LoginScreen() {
                                     rememberLoggedIn(remember = true, user = user)
                                     context.router.navigateTo(HOME_ROUTE)
                                 } ?: run {
-                                    setProgressError(error = "The user doesn't exist.")
+                                    setProgressError(
+                                        error = Errors.USER_DOESNT_EXIST
+                                    )
                                 }
                             } else {
-                                setProgressError(error = "Input fields are empty.")
+                                setProgressError(
+                                    error = Errors.INPUT_EMPTY
+                                )
                             }
                         }
                     }
