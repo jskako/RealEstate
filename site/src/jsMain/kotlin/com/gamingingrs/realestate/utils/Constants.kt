@@ -5,8 +5,10 @@ object Fonts {
 }
 
 object Image {
-    const val LOGO = "/logo.svg"
-    const val LOCK = "/lock.svg"
+    const val USERNAME_IMG = "/username.svg"
+    const val PASSWORD_IMG = "/password.svg"
+    const val VISIBLE_IMG = "/visible.svg"
+    const val HIDDEN_IMG = "/hidden.svg"
 }
 
 object Id {

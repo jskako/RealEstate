@@ -8,12 +8,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.gamingingrs.realestate.components.CustomButton
 import com.gamingingrs.realestate.components.OutlinedInput
-import com.gamingingrs.realestate.models.Theme
 import com.gamingingrs.realestate.models.User
 import com.gamingingrs.realestate.models.UserWithoutPassword
+import com.gamingingrs.realestate.models.enums.Progress.ACTIVE
+import com.gamingingrs.realestate.models.enums.Progress.ERROR
+import com.gamingingrs.realestate.models.enums.Progress.NOT_ACTIVE
 import com.gamingingrs.realestate.utils.Fonts.FONT_ROBOTO
 import com.gamingingrs.realestate.utils.Id.PASSWORD_INPUT
 import com.gamingingrs.realestate.utils.Id.USERNAME_INPUT
+import com.gamingingrs.realestate.utils.Image.HIDDEN_IMG
+import com.gamingingrs.realestate.utils.Image.PASSWORD_IMG
+import com.gamingingrs.realestate.utils.Image.USERNAME_IMG
+import com.gamingingrs.realestate.utils.Image.VISIBLE_IMG
 import com.gamingingrs.realestate.utils.LocalStorage.REMEMBER_KEY
 import com.gamingingrs.realestate.utils.LocalStorage.USERNAME_KEY
 import com.gamingingrs.realestate.utils.LocalStorage.USER_ID_KEY
@@ -63,15 +69,16 @@ fun LoginScreen() {
     val scope = rememberCoroutineScope()
     val context = rememberPageContext()
     var errorText by remember { mutableStateOf("") }
-    var progress by remember { mutableStateOf(Progress.NOT_ACTIVE) }
+    var progress by remember { mutableStateOf(NOT_ACTIVE) }
+    var passwordVisible by remember { mutableStateOf(false) }
 
     fun resetProgress() {
         errorText = ""
-        progress = Progress.NOT_ACTIVE
+        progress = NOT_ACTIVE
     }
 
     suspend fun setProgressError(error: String) {
-        progress = Progress.ERROR
+        progress = ERROR
         errorText = error
         setDelay {
             resetProgress()
@@ -120,20 +127,30 @@ fun LoginScreen() {
             OutlinedInput(
                 type = InputType.Text,
                 placeholder = "Username",
-                id = USERNAME_INPUT
+                id = USERNAME_INPUT,
+                leadingIconPath = USERNAME_IMG
             )
 
             OutlinedInput(
                 type = InputType.Password,
                 placeholder = "Password",
-                id = PASSWORD_INPUT
+                id = PASSWORD_INPUT,
+                leadingIconPath = PASSWORD_IMG,
+                trailingIconPath = if (passwordVisible) {
+                    VISIBLE_IMG
+                } else {
+                    HIDDEN_IMG
+                },
+                onTrailingIconClicked = {
+                    passwordVisible = !passwordVisible
+                }
             )
 
             CustomButton(
                 text = "Sign in",
                 visibility = when (progress) {
-                    Progress.NOT_ACTIVE, Progress.ERROR -> Visibility.Visible
-                    Progress.ACTIVE -> Visibility.Hidden
+                    NOT_ACTIVE, ERROR -> Visibility.Visible
+                    ACTIVE -> Visibility.Hidden
                 },
                 onClick = {
                     scope.launch {
@@ -143,7 +160,7 @@ fun LoginScreen() {
                             (document.getElementById(PASSWORD_INPUT) as? HTMLInputElement)?.value.orEmpty()
 
                         if (username.isNotEmpty() && password.isNotEmpty()) {
-                            progress = Progress.ACTIVE
+                            progress = ACTIVE
                             userExist(
                                 User(
                                     username = username,
@@ -162,16 +179,16 @@ fun LoginScreen() {
                 }
             )
 
-            if (progress == Progress.ACTIVE) {
+            if (progress == ACTIVE) {
                 Progress()
             }
 
-            if (progress == Progress.ERROR) {
+            if (progress == ERROR) {
                 SpanText(
                     modifier = Modifier
                         .margin(top = 24.px)
                         .width(350.px)
-                        .color(Theme.DarkRed.rgb)
+                        .color(Colors.DarkRed)
                         .textAlign(TextAlign.Center),
                     text = errorText
                 )
@@ -189,8 +206,4 @@ private fun rememberLoggedIn(
         localStorage[USER_ID_KEY] = user.id
         localStorage[USERNAME_KEY] = user.username
     }
-}
-
-enum class Progress {
-    ACTIVE, NOT_ACTIVE, ERROR
 }
