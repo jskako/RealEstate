@@ -132,7 +132,7 @@ fun LoginScreen() {
             )
 
             OutlinedInput(
-                type = InputType.Password,
+                type = if (passwordVisible) InputType.Text else InputType.Password,
                 placeholder = "Password",
                 id = PASSWORD_INPUT,
                 leadingIconPath = PASSWORD_IMG,
