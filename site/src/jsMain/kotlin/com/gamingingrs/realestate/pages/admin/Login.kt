@@ -23,7 +23,7 @@ import com.gamingingrs.realestate.utils.Image.HIDDEN_IMG
 import com.gamingingrs.realestate.utils.Image.PASSWORD_IMG
 import com.gamingingrs.realestate.utils.Image.USERNAME_IMG
 import com.gamingingrs.realestate.utils.Image.VISIBLE_IMG
-import com.gamingingrs.realestate.utils.LocalStorage.REMEMBER_KEY
+import com.gamingingrs.realestate.utils.LocalStorage.IS_USER_STORED_KEY
 import com.gamingingrs.realestate.utils.LocalStorage.USERNAME_KEY
 import com.gamingingrs.realestate.utils.LocalStorage.USER_ID_KEY
 import com.gamingingrs.realestate.utils.Routes.HOME_ROUTE
@@ -237,7 +237,7 @@ private fun rememberLoggedIn(
     remember: Boolean,
     user: UserWithoutPassword? = null
 ) {
-    localStorage[REMEMBER_KEY] = remember.toString()
+    localStorage[IS_USER_STORED_KEY] = remember.toString()
     if (user != null) {
         localStorage[USER_ID_KEY] = user.id
         localStorage[USERNAME_KEY] = user.username

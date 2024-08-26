@@ -17,13 +17,14 @@ object Id {
 }
 
 object LocalStorage {
-    const val REMEMBER_KEY = "remember"
+    const val IS_USER_STORED_KEY = "storedUser"
     const val USER_ID_KEY = "userId"
     const val USERNAME_KEY = "username"
 }
 
 object Routes {
     const val HOME_ROUTE = "/admin"
+    const val LOGIN_ROUTE = "/admin/login"
 }
 
 object Delay {
