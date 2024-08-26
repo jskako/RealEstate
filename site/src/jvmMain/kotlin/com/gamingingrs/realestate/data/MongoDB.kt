@@ -5,7 +5,6 @@ import com.gamingingrs.realestate.util.Constants.DATABASE_NAME
 import com.varabyte.kobweb.api.data.add
 import com.varabyte.kobweb.api.init.InitApi
 import com.varabyte.kobweb.api.init.InitApiContext
-import kotlinx.coroutines.reactive.awaitFirst
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.litote.kmongo.and
 import org.litote.kmongo.eq

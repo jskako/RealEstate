@@ -6,7 +6,7 @@ import com.varabyte.kobweb.core.Page
 
 @Page
 @Composable
-fun HomePage() {
+fun HomeScreen() {
     isUserAuthenticated {
         HomeLayout()
     }

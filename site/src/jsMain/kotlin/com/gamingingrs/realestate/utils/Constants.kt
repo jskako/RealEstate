@@ -9,6 +9,7 @@ object Image {
     const val PASSWORD_IMG = "/password.svg"
     const val VISIBLE_IMG = "/visible.svg"
     const val HIDDEN_IMG = "/hidden.svg"
+    const val SMILE_IMG = "/smile.svg"
 }
 
 object Id {
@@ -25,6 +26,7 @@ object LocalStorage {
 object Routes {
     const val HOME_ROUTE = "/admin"
     const val LOGIN_ROUTE = "/admin/login"
+    const val FORBIDDEN_ROUTE = "/admin/forbidden"
 }
 
 object Delay {
