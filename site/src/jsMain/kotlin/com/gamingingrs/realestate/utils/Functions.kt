@@ -22,16 +22,15 @@ fun isUserAuthenticated(content: @Composable () -> Unit) {
     val userId = remember { localStorage[USER_ID_KEY] }
     var userIdExists by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        userIdExists = if(!userId.isNullOrEmpty()) isUserAuthenticated(id = userId) else false
-        if(!isUserStored || !userIdExists) {
+    LaunchedEffect(isUserStored, userId) {
+        userIdExists = userId?.let { isUserAuthenticated(it) } ?: false
+
+        if (!isUserStored || !userIdExists) {
             context.router.navigateTo(LOGIN_ROUTE)
         }
     }
 
     if (isUserStored && userIdExists) {
         content()
-    } else {
-        println("Something went wrong.")
     }
 }
