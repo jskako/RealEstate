@@ -12,6 +12,7 @@ import com.gamingingrs.realestate.components.composables.CustomButton
 import com.gamingingrs.realestate.components.composables.OutlinedInput
 import com.gamingingrs.realestate.models.User
 import com.gamingingrs.realestate.models.enums.Errors
+import com.gamingingrs.realestate.models.enums.Progress
 import com.gamingingrs.realestate.models.enums.Progress.ACTIVE
 import com.gamingingrs.realestate.models.enums.Progress.ERROR
 import com.gamingingrs.realestate.models.enums.Progress.NOT_ACTIVE
@@ -100,7 +101,6 @@ private fun LoginLayout() {
 
     LaunchedEffect(progress) {
         launch {
-
             val delayTime = ANIMATION_DURATION / ANIMATION_STEPS
 
             suspend fun animateColor(fromColor: Color, toColor: Color) {
@@ -115,21 +115,6 @@ private fun LoginLayout() {
                 animateColor(Colors.DimGray, Colors.LightGoldenRodYellow)
                 animateColor(Colors.LightGoldenRodYellow, Colors.DimGray)
             }
-        }
-    }
-
-    fun resetProgress() {
-        message.reset()
-        progress = NOT_ACTIVE
-    }
-
-    suspend fun setProgressError(
-        error: Errors
-    ) {
-        progress = ERROR
-        message.set("${error.code()}: ${error.message()}")
-        setDelay {
-            resetProgress()
         }
     }
 
@@ -201,33 +186,27 @@ private fun LoginLayout() {
                     text = "Sign in",
                     onClick = {
                         scope.launch {
-                            val username =
-                                (document.getElementById(USERNAME_INPUT) as? HTMLInputElement)?.value.orEmpty()
-                            val password =
-                                (document.getElementById(PASSWORD_INPUT) as? HTMLInputElement)?.value.orEmpty()
-
-                            if (username.isNotEmpty() && password.isNotEmpty()) {
-                                progress = ACTIVE
-                                message.set("PLEASE HOLD ON WHILE I CHECK IF THE USER IS IN THE SYSTEM")
-                                userExist(
-                                    User(
-                                        username = username,
-                                        password = password
-                                    )
-                                )?.let { user ->
-                                    message.set("WELCOME BACK")
-                                    rememberLoggedIn(remember = true, user = user)
+                            processUser(
+                                onProgress = {
+                                    progress = it
+                                },
+                                onProgressError = {
+                                    this.launch {
+                                        progress = ERROR
+                                        message.set("${it.code()}: ${it.message()}")
+                                        setDelay {
+                                            message.reset()
+                                            progress = NOT_ACTIVE
+                                        }
+                                    }
+                                },
+                                onMessage = {
+                                    message.set(text = it)
+                                },
+                                navigateHome = {
                                     context.router.navigateTo(HOME_ROUTE)
-                                } ?: run {
-                                    setProgressError(
-                                        error = Errors.USER_DOESNT_EXIST
-                                    )
                                 }
-                            } else {
-                                setProgressError(
-                                    error = Errors.INPUT_EMPTY
-                                )
-                            }
+                            )
                         }
                     }
                 )
@@ -250,6 +229,37 @@ private fun LoginLayout() {
                 )
             }
         }
+    }
+}
+
+private suspend fun processUser(
+    onProgress: (Progress) -> Unit,
+    onMessage: (String) -> Unit,
+    onProgressError: (Errors) -> Unit,
+    navigateHome: () -> Unit
+) {
+    val username =
+        (document.getElementById(USERNAME_INPUT) as? HTMLInputElement)?.value.orEmpty()
+    val password =
+        (document.getElementById(PASSWORD_INPUT) as? HTMLInputElement)?.value.orEmpty()
+
+    if (username.isNotEmpty() && password.isNotEmpty()) {
+        onProgress(ACTIVE)
+        onMessage("PLEASE HOLD ON WHILE I CHECK IF THE USER IS IN THE SYSTEM")
+        userExist(
+            User(
+                username = username,
+                password = password
+            )
+        )?.let { user ->
+            onMessage("WELCOME BACK")
+            rememberLoggedIn(remember = true, user = user)
+            navigateHome()
+        } ?: run {
+            onProgressError(Errors.USER_DOESNT_EXIST)
+        }
+    } else {
+        onProgressError(Errors.INPUT_EMPTY)
     }
 }
 

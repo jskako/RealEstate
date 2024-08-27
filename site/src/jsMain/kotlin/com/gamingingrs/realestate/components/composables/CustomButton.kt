@@ -40,7 +40,7 @@ fun CustomButton(
             .width(350.px)
             .height(54.px)
             .visibility(visibility = visibility)
-            .backgroundColor(Colors.CornflowerBlue)
+            .backgroundColor(Colors.DarkOliveGreen)
             .color(Colors.White)
             .borderRadius(r = 4.px)
             .fontFamily(FONT_ROBOTO)
