@@ -26,6 +26,7 @@ import com.gamingingrs.realestate.utils.Routes.HOME_ROUTE
 import com.gamingingrs.realestate.utils.interpolateColor
 import com.gamingingrs.realestate.utils.rememberLoggedIn
 import com.gamingingrs.realestate.utils.setDelay
+import com.gamingingrs.realestate.utils.userAuthenticated
 import com.gamingingrs.realestate.utils.userExist
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextAlign
@@ -66,6 +67,30 @@ import org.w3c.dom.HTMLInputElement
 @Composable
 fun LoginScreen() {
 
+    val context = rememberPageContext()
+    var isUserAuthenticated by remember { mutableStateOf<Boolean?>(null) }
+
+    userAuthenticated(
+        isUserAuthenticated = {
+            isUserAuthenticated = it
+        }
+    )
+
+    when (isUserAuthenticated) {
+        true -> {
+            context.router.navigateTo(HOME_ROUTE)
+        }
+
+        false -> {
+            LoginLayout()
+        }
+
+        else -> Unit
+    }
+}
+
+@Composable
+private fun LoginLayout() {
     val scope = rememberCoroutineScope()
     val context = rememberPageContext()
     val message by remember { mutableStateOf(Message()) }

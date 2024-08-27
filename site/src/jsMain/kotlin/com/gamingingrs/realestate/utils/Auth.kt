@@ -13,8 +13,7 @@ import org.w3c.dom.get
 
 @Composable
 fun userAuthenticated(
-    navigateToOnFail: () -> Unit,
-    onSuccessContent: @Composable () -> Unit
+    isUserAuthenticated: (Boolean) -> Unit
 ) {
     val isUserStored = remember { localStorage[IS_USER_STORED_KEY].toBoolean() }
     val userId = remember { localStorage[USER_ID_KEY] }
@@ -24,11 +23,11 @@ fun userAuthenticated(
         userIdExists = userId?.let { isUserAuthenticated(it) } ?: false
 
         if (!isUserStored || !userIdExists) {
-            navigateToOnFail()
+            isUserAuthenticated(false)
         }
     }
 
     if (isUserStored && userIdExists) {
-        onSuccessContent()
+        isUserAuthenticated(true)
     }
 }
