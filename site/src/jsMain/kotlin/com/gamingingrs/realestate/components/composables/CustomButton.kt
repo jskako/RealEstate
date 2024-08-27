@@ -1,7 +1,6 @@
 package com.gamingingrs.realestate.components.composables
 
 import androidx.compose.runtime.Composable
-import com.gamingingrs.realestate.models.Theme
 import com.gamingingrs.realestate.utils.Fonts.FONT_ROBOTO
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
@@ -41,7 +40,7 @@ fun CustomButton(
             .width(350.px)
             .height(54.px)
             .visibility(visibility = visibility)
-            .backgroundColor(Theme.Primary.rgb)
+            .backgroundColor(Colors.CornflowerBlue)
             .color(Colors.White)
             .borderRadius(r = 4.px)
             .fontFamily(FONT_ROBOTO)
