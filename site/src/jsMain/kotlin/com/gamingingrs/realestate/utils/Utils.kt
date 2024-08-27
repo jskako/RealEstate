@@ -6,7 +6,7 @@ import kotlinx.coroutines.delay
 import org.jetbrains.compose.web.css.CSSColorValue
 import org.jetbrains.compose.web.css.rgb
 
-suspend fun setDelay(
+suspend inline fun setDelay(
     delay: Long = SHORT,
     onDone: () -> Unit,
 ) {

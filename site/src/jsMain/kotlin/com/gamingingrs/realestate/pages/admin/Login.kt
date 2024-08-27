@@ -11,7 +11,6 @@ import com.gamingingrs.realestate.components.Message
 import com.gamingingrs.realestate.components.composables.CustomButton
 import com.gamingingrs.realestate.components.composables.OutlinedInput
 import com.gamingingrs.realestate.models.User
-import com.gamingingrs.realestate.models.UserWithoutPassword
 import com.gamingingrs.realestate.models.enums.Errors
 import com.gamingingrs.realestate.models.enums.Progress.ACTIVE
 import com.gamingingrs.realestate.models.enums.Progress.ERROR
@@ -23,11 +22,9 @@ import com.gamingingrs.realestate.utils.Image.HIDDEN_IMG
 import com.gamingingrs.realestate.utils.Image.PASSWORD_IMG
 import com.gamingingrs.realestate.utils.Image.USERNAME_IMG
 import com.gamingingrs.realestate.utils.Image.VISIBLE_IMG
-import com.gamingingrs.realestate.utils.LocalStorage.IS_USER_STORED_KEY
-import com.gamingingrs.realestate.utils.LocalStorage.USERNAME_KEY
-import com.gamingingrs.realestate.utils.LocalStorage.USER_ID_KEY
 import com.gamingingrs.realestate.utils.Routes.HOME_ROUTE
 import com.gamingingrs.realestate.utils.interpolateColor
+import com.gamingingrs.realestate.utils.rememberLoggedIn
 import com.gamingingrs.realestate.utils.setDelay
 import com.gamingingrs.realestate.utils.userExist
 import com.varabyte.kobweb.compose.css.FontWeight
@@ -54,7 +51,6 @@ import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.text.SpanText
 import kotlinx.browser.document
-import kotlinx.browser.localStorage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.attributes.InputType
@@ -65,7 +61,6 @@ import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.H4
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.set
 
 @Page
 @Composable
@@ -230,17 +225,6 @@ fun LoginScreen() {
                 )
             }
         }
-    }
-}
-
-private fun rememberLoggedIn(
-    remember: Boolean,
-    user: UserWithoutPassword? = null
-) {
-    localStorage[IS_USER_STORED_KEY] = remember.toString()
-    if (user != null) {
-        localStorage[USER_ID_KEY] = user.id
-        localStorage[USERNAME_KEY] = user.username
     }
 }
 
