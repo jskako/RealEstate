@@ -5,7 +5,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.gamingingrs.realestate.components.composables.navigation.NavigationItemData
 import com.gamingingrs.realestate.components.sections.SidePanel
+import com.gamingingrs.realestate.utils.Image.PASSWORD_IMG
 import com.gamingingrs.realestate.utils.Routes.FORBIDDEN_ROUTE
 import com.gamingingrs.realestate.utils.userAuthenticated
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -51,7 +53,17 @@ private fun HomeLayout() {
             .backgroundColor(Colors.AntiqueWhite)
             .fillMaxSize()
     ) {
-        SidePanel()
+        SidePanel(
+            listOf(
+                NavigationItemData(
+                    iconPath = PASSWORD_IMG,
+                    title = "Just Test",
+                    onNavigate = {
+                        println("Clicked")
+                    }
+                )
+            )
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
