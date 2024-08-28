@@ -5,11 +5,15 @@ object Fonts {
 }
 
 object Image {
-    const val USERNAME_IMG = "/username.svg"
-    const val PASSWORD_IMG = "/password.svg"
-    const val VISIBLE_IMG = "/visible.svg"
-    const val HIDDEN_IMG = "/hidden.svg"
-    const val SMILE_IMG = "/smile.svg"
+    const val USERNAME_IMG = "/icons/username.svg"
+    const val PASSWORD_IMG = "/icons/password.svg"
+    const val VISIBLE_IMG = "/icons/visible.svg"
+    const val HIDDEN_IMG = "/icons/hidden.svg"
+    const val SMILE_IMG = "/icons/smile.svg"
+}
+
+object Settings {
+    const val LANGUAGE_SETTING = "/strings"
 }
 
 object Id {

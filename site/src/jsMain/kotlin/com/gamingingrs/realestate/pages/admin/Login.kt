@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -12,6 +13,7 @@ import com.gamingingrs.realestate.components.composables.CustomButton
 import com.gamingingrs.realestate.components.composables.OutlinedInput
 import com.gamingingrs.realestate.models.User
 import com.gamingingrs.realestate.models.enums.Errors
+import com.gamingingrs.realestate.models.enums.Language
 import com.gamingingrs.realestate.models.enums.Progress
 import com.gamingingrs.realestate.models.enums.Progress.ACTIVE
 import com.gamingingrs.realestate.models.enums.Progress.ERROR
@@ -24,7 +26,9 @@ import com.gamingingrs.realestate.utils.Image.PASSWORD_IMG
 import com.gamingingrs.realestate.utils.Image.USERNAME_IMG
 import com.gamingingrs.realestate.utils.Image.VISIBLE_IMG
 import com.gamingingrs.realestate.utils.Routes.HOME_ROUTE
+import com.gamingingrs.realestate.utils.getOrDefault
 import com.gamingingrs.realestate.utils.interpolateColor
+import com.gamingingrs.realestate.utils.loadStrings
 import com.gamingingrs.realestate.utils.rememberLoggedIn
 import com.gamingingrs.realestate.utils.setDelay
 import com.gamingingrs.realestate.utils.userAuthenticated
@@ -71,6 +75,13 @@ fun LoginScreen() {
     val context = rememberPageContext()
     var isUserAuthenticated by remember { mutableStateOf<Boolean?>(null) }
 
+    val language = produceState<Map<String, String>>(
+        initialValue = emptyMap(),
+        key1 = Unit
+    ) {
+        value = loadStrings(Language.ENGLISH)
+    }
+
     userAuthenticated(
         isUserAuthenticated = {
             isUserAuthenticated = it
@@ -83,7 +94,9 @@ fun LoginScreen() {
         }
 
         false -> {
-            LoginLayout()
+            LoginLayout(
+                language = language.value
+            )
         }
 
         else -> Unit
@@ -91,7 +104,9 @@ fun LoginScreen() {
 }
 
 @Composable
-private fun LoginLayout() {
+private fun LoginLayout(
+    language: Map<String, String>
+) {
     val scope = rememberCoroutineScope()
     val context = rememberPageContext()
     val message by remember { mutableStateOf(Message()) }
@@ -144,7 +159,7 @@ private fun LoginLayout() {
                     .margin(topBottom = 50.px)
                     .toAttrs()
             ) {
-                Text("REAL ESTATE")
+                Text(language.getOrDefault("app_name"))
             }
 
             H4(
