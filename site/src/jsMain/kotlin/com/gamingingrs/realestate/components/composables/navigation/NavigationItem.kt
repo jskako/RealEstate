@@ -52,7 +52,7 @@ fun NavigationItem(
                 .fontWeight(FontWeight.ExtraLight)
                 .toAttrs()
         ) {
-            Text(title.uppercase())
+            Text(title)
         }
     }
 }

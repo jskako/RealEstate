@@ -10,6 +10,10 @@ object Image {
     const val VISIBLE_IMG = "/icons/visible.svg"
     const val HIDDEN_IMG = "/icons/hidden.svg"
     const val SMILE_IMG = "/icons/smile.svg"
+    const val HOME_IMG = "/icons/home.svg"
+    const val CREATE_LISTING_IMG = "/icons/create_listing.svg"
+    const val LISTING_IMG = "/icons/listing.svg"
+    const val LOGOUT_IMG = "/icons/logout.svg"
 }
 
 object Settings {
