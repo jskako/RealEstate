@@ -53,7 +53,7 @@ private fun HomeLayout() {
             .fillMaxSize()
     ) {
         SidePanel(
-            title = "Dashboard",
+            title = "Real Estate",
             navigationItemsData = adminNavigation
         )
         Column(

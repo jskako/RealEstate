@@ -35,13 +35,12 @@ fun NavigationItem(
             .onClick {
                 onNavigate()
             },
-        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Img(
             src = iconPath,
             attrs = Modifier
-                .padding(right = 10.px)
+                .padding(right = 15.px)
                 .size(40.px)
                 .toAttrs()
         )
